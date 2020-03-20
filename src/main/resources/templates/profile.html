@@ -1,0 +1,25 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <title>LDAP Demo</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+</head>
+<body>
+
+<div class="container">
+
+    You are logged in !!!<br /><br /><br />
+
+    <span th:text="${person}">person name</span>
+
+    <form class="form-signin" th:action="@{/logout}" action="/logout" method="POST">
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Logout</button>
+    </form>
+
+</div>
+<!-- /container -->
+
+</body>
+</html>
