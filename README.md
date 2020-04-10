@@ -153,6 +153,22 @@ shadowWarning: 0
 ![alt ](docs/LDAP-Browser-07.PNG)
 
 
+## For Multiple LDAP Servers
+Create a LdapTemplate as required
+```java
+private LdapTemplate getLdapTemplateFromDocker() {
+
+    LdapContextSource ctxSrc = new LdapContextSource();
+    ctxSrc.setUrl("ldap://192.168.99.100:389");
+    ctxSrc.setBase("dc=example,dc=org");
+    ctxSrc.setUserDn("cn=admin,dc=example,dc=org");
+    ctxSrc.setPassword("admin");
+    ctxSrc.afterPropertiesSet();    // Initializing LdapContextSource
+
+    return new LdapTemplate(ctxSrc);
+}
+```
+
 ## Referrances
 * [https://spring.io/guides/gs/authenticating-ldap/](https://spring.io/guides/gs/authenticating-ldap/)
 * [https://docs.spring.io/spring-ldap/docs/current/reference/](https://docs.spring.io/spring-ldap/docs/current/reference/)

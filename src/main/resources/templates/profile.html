@@ -12,7 +12,17 @@
 
     You are logged in !!!<br /><br /><br />
 
+    Logged in Person <br />
     <span th:text="${person}">person name</span>
+    <br /><br />
+
+    Tom: <br />
+    <span th:text="${tom}">person name</span>
+    <br/><br />
+
+    People: <br />
+    <span th:text="${people}">person name</span>
+
 
     <form class="form-signin" th:action="@{/logout}" action="/logout" method="POST">
         <button class="btn btn-lg btn-primary btn-block" type="submit">Logout</button>

@@ -1,8 +1,9 @@
 package brian.example.boot.ldap.controller;
 
+import brian.example.boot.ldap.mapper.PersonAttributesMapper;
 import brian.example.boot.ldap.model.Person;
+import brian.example.boot.ldap.service.ldap.LdapClient;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ldap.core.AttributesMapper;
 import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.ldap.query.LdapQuery;
 import org.springframework.ldap.support.LdapUtils;
@@ -10,8 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.naming.NamingException;
-import javax.naming.directory.Attributes;
 import java.security.Principal;
 import java.util.List;
 
@@ -22,6 +21,9 @@ public class LoginController {
 
     @Autowired
     private LdapTemplate ldapTemplate;
+
+    @Autowired
+    private LdapClient ldapClient;
 
     /**
      * Login screen
@@ -42,6 +44,7 @@ public class LoginController {
     public ModelAndView index(){
 
         // This is only for testing purpose. --------------
+        // Uses LdapTemplate from Spring Bean
         LdapQuery qeury = query()
                 .attributes("cn","sn","mail")          // Attributes you want to get
                 .base(LdapUtils.emptyLdapName())
@@ -76,6 +79,14 @@ public class LoginController {
         mav.setViewName("profile");
         mav.addObject("person", person);
 
+        // For testing purpose
+        // Next call will create individual LdapTemplate for calls
+        Person tom = ldapClient.getPersonByUidFromDocker("tom");
+        List<Person> people = ldapClient.getPeopleFromFreeLdap();
+
+        mav.addObject("tom", tom);
+        mav.addObject("people", people);
+
         return mav;
     }
 
@@ -89,23 +100,4 @@ public class LoginController {
         return new ModelAndView("index");
     }
 
-    /**
-     * LDAP data mapper to Person object
-     */
-    private class PersonAttributesMapper implements AttributesMapper<Person> {
-
-        public Person mapFromAttributes(Attributes attrs) throws NamingException {
-            Person person = new Person();
-            person.setFullName((String)attrs.get("cn").get());
-
-            if( attrs.get("sn") != null ) {
-                person.setLastName((String) attrs.get("sn").get());
-            }
-            if( attrs.get("mail") != null ) {
-                person.setEmail((String) attrs.get("mail").get());
-            }
-
-            return person;
-        }
-    }
 }

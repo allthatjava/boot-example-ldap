@@ -1,0 +1,17 @@
+dn: uid=tom,dc=example,dc=org
+objectClass: top
+objectClass: person
+objectClass: posixAccount
+objectClass: shadowAccount
+cn: Tom Holland
+sn: Holland
+uid: tom
+uidNumber: 16860
+gidNumber: 200
+homeDirectory: /home/tom
+loginShell: /bin/bash
+gecos: adamtom
+userPassword: {SSHA}CW10yCh3RqsT00Jd58nmpW6zAkRI4E+V
+shadowLastChange: 0
+shadowMax: 0
+shadowWarning: 0
