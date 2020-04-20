@@ -8,6 +8,7 @@ import org.springframework.ldap.query.LdapQuery;
 import org.springframework.ldap.support.LdapUtils;
 import org.springframework.stereotype.Service;
 
+import javax.naming.directory.SearchControls;
 import java.util.List;
 
 import static org.springframework.ldap.query.LdapQueryBuilder.query;
@@ -79,5 +80,18 @@ public class LdapClient {
 
         LdapTemplate template = getLdapTemplateFromFreeLdap();
         return template.search(query, new PersonAttributesMapper());
+    }
+
+    public List<Person> getPeopleFromFreeLdapWithSearch() {
+        SearchControls sc = new SearchControls();
+        sc.setSearchScope(SearchControls.SUBTREE_SCOPE);
+        sc.setTimeLimit(3000);
+        sc.setCountLimit(10);       // Page - Maximum Entries to return
+        sc.setReturningAttributes(new String[]{"cn"});
+
+        String filter = "(&(objectclass=person)(cn=*Al*))";
+
+        LdapTemplate template = getLdapTemplateFromFreeLdap();
+        return template.search( LdapUtils.emptyLdapName(), filter, sc, new PersonAttributesMapper());
     }
 }

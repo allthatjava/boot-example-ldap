@@ -86,6 +86,7 @@ public class LoginController {
 
         mav.addObject("tom", tom);
         mav.addObject("people", people);
+        mav.addObject("peopleSearch", ldapClient.getPeopleFromFreeLdapWithSearch());
 
         return mav;
     }
